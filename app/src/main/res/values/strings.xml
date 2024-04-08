@@ -5,6 +5,6 @@
     <string name="dimension_6x6">Dimension 6x6</string>
     <string name="dimension_4x4">Dimension 4x4</string>
     <string name="dimension_8x8">Dimension 8x8</string>
-    <string name="score">score</string>
-    <string name="back">back</string>
+    <string name="score">Tableau des scores</string>
+    <string name="back">Retour arrière</string>
 </resources>

@@ -35,30 +35,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView">
 
-        <Button
-            android:id="@+id/button4"
-            android:layout_width="157dp"
+        <ImageView
+            android:id="@+id/ImageBleue"
+            android:layout_width="155dp"
             android:layout_height="155dp"
-            android:background="@drawable/button_shape"
-            android:backgroundTint="#009688"
-            android:elevation="4dp"
-            android:text=""
-            android:textColor="#FFFFFF" />
+            app:srcCompat="@drawable/button_bleue" />
 
         <Space
             android:layout_width="37dp"
             android:layout_height="0dp" />
 
-        <Button
-            android:id="@+id/button5"
+        <ImageView
+            android:id="@+id/ImageRouge"
             android:layout_width="155dp"
             android:layout_height="155dp"
-            android:background="@drawable/button_shape"
-            android:backgroundTint="#F44336"
-            android:elevation="4dp"
-            android:text=""
-            android:textColor="#FF0000"
-            />
+            app:srcCompat="@drawable/button_rouge" />
 
     </LinearLayout>
 

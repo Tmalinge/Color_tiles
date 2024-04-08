@@ -21,7 +21,8 @@ public class ActivityGame extends AppCompatActivity {
     private ActivityGameBinding binding;
     private GridView gridView;
     ArrayList<Integer> integerRes = new ArrayList<>();
-
+    ArrayList<Tiles> arrayTiles = new ArrayList<>();
+    int idGenerator = 0;
     int data = 1;
 
     @Override
@@ -70,19 +71,34 @@ public class ActivityGame extends AppCompatActivity {
             imageButton.setBackgroundColor(Color.BLACK);
 
             imageButton.setImageResource(integerRes.get(i));
-            imageButton.setTag(R.drawable.black);
-
-            //imageButton.setTag();
+            imageButton.setId(idGenerator);
+            arrayTiles.add(new Tiles(imageButton.getId(), State.BLACK));
+            incrementIdGenerator();
 
             imageButton.setScaleType(ImageButton.ScaleType.CENTER_CROP);
 
             imageButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    binding.textView.setText("Tag : "+ imageButton.getTag().toString());
-                    /*if(imageButton.getTag() == 1){
-
-                    }*/
+                    binding.textView.setText("id : "+ imageButton.getId());
+                    for(Tiles tiles : arrayTiles) {
+                        if(tiles.getId() == imageButton.getId()) {
+                            switch (tiles.getState()){
+                                case BLACK:
+                                    imageButton.setImageResource(R.drawable.red);
+                                    tiles.setState(State.RED);
+                                    break;
+                                case RED:
+                                    imageButton.setImageResource(R.drawable.blue);
+                                    tiles.setState(State.BLUE);
+                                    break;
+                                case BLUE:
+                                    imageButton.setImageResource(R.drawable.black);
+                                    tiles.setState(State.BLACK);
+                                    break;
+                            }
+                        }
+                    }
                 }
             });
 
@@ -90,6 +106,9 @@ public class ActivityGame extends AppCompatActivity {
         }
     }
 
+    private void incrementIdGenerator(){
+        this.idGenerator++;
+    }
 
     @Override
     protected void onResume() {

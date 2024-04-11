@@ -50,11 +50,17 @@ public class Selector_page extends AppCompatActivity {
             dialog_language.setText("FRANCAIS");
             setTitle(resources.getString(R.string.app_name));
             lang_selected =1;
+        }else if(LocaleHelper.getLanguage(Selector_page.this).equalsIgnoreCase("ja")){
+            context = LocaleHelper.setLocale(Selector_page.this,"ja");
+            resources =context.getResources();
+            dialog_language.setText("JAPENESE");
+            setTitle(resources.getString(R.string.app_name));
+            lang_selected =2;
         }
         show_lan_dialog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final String[] Language = {"ENGLISH", "FRANCAIS"};
+                final String[] Language = {"ENGLISH", "FRANCAIS", "JAPANESE"};
                 final int checkItem;
                 Log.d("Clicked", "Clicked");
                 final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(Selector_page.this);
@@ -73,6 +79,13 @@ public class Selector_page extends AppCompatActivity {
                                     context = LocaleHelper.setLocale(Selector_page.this, "frm");
                                     resources = context.getResources();
                                     lang_selected = 1;
+                                    setTitle(resources.getString(R.string.app_name));
+
+                                }
+                                if (Language[i].equals("JAPANESE")) {
+                                    context = LocaleHelper.setLocale(Selector_page.this, "ja");
+                                    resources = context.getResources();
+                                    lang_selected = 2;
                                     setTitle(resources.getString(R.string.app_name));
 
                                 }

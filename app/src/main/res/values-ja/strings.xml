@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello_world">おはよう ！</string>
+    <string name="app_name">カラータイル</string>
+    <string name="choisir_une_taille_pour_jouer">プレイするサイズを選択してください^^</string>
+    <string name="ecran_de_selection">選択画面</string>
+    <string name="dimension_6x6">サイズ 6x6</string>
+    <string name="dimension_4x4">サイズ 4x4</string>
+    <string name="dimension_8x8">サイズ 8x8</string>
+    <string name="score">スコアの表</string>
+    <string name="back">戻る</string>
+    <string name="presentation">
+カラータイルゲームは以下によって開発されました。</string>
+    <string name="name">
+テオ、エイドリアン、フロリアン</string>
+</resources>

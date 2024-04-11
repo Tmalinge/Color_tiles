@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello_world">Bonjour !</string>
+    <string name="app_name">Color tiles</string>
+    <string name="choisir_une_taille_pour_jouer">Choisir une taille pour jouer ^^</string>
+    <string name="ecran_de_selection">Ecran de Selection</string>
+    <string name="dimension_6x6">Dimension 6x6</string>
+    <string name="dimension_4x4">Dimension 4x4</string>
+    <string name="dimension_8x8">Dimension 8x8</string>
+    <string name="score">Tableau des scores</string>
+    <string name="back">Retour arrière</string>
+    <string name="presentation">Le jeu Color Tiles a été dévelopé par:</string>
+    <string name="name">Theo, Adrien et Florian</string>
+</resources>

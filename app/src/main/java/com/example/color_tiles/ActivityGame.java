@@ -13,10 +13,8 @@ import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import com.example.color_tiles.databinding.ActivityGameBinding;
-import com.google.android.material.tabs.TabLayout;
 
 public class ActivityGame extends AppCompatActivity {
 
@@ -107,7 +105,7 @@ public class ActivityGame extends AppCompatActivity {
                         }
                     }
                     //binding.textView.setText("Check End Of Game : "+ checkEndOfGame());
-                    if (checkEndOfGame() == 1){
+                    if (percentEndOfGame() == 1){
                         binding.textView.setText("End Of Game");
                         if(!checkRegle()){
                             binding.textView5.setText("No Error");
@@ -135,14 +133,10 @@ public class ActivityGame extends AppCompatActivity {
 
     }
 
-    public int checkEndOfGame (){
-        int blackTiles = 0;
+    public int percentEndOfGame(){
         int noBlackTiles = 0;
         for (int index=4; index< arrayTiles.size();index++){
-            if(arrayTiles.get(index).getState().equals(State.BLACK)){
-                blackTiles++;
-            }
-            else {
+            if(!arrayTiles.get(index).getState().equals(State.BLACK)){
                 noBlackTiles++;
             }
         }
@@ -178,41 +172,39 @@ public class ActivityGame extends AppCompatActivity {
 
                     }
                 }
-
-
                 index++;
-
-
-
             }
 
         }
-        // Check Coloun & Line
-
-        nbRed=0;
-        nbBlue=0;
-        listSameColor.clear();
+        // Get Line  Column
         index = 4;
-        for(int y=0;y<data;y++) {
-
-            if(arrayTiles.get(index+4).getState() == State.RED){
-                nbRed++;
-                listSameColor.add(index+4);
+        ArrayList<ArrayList<TilesCheck>> listColumn = new ArrayList<>();
+        ArrayList<ArrayList<TilesCheck>> listLine = new ArrayList<>();
+        for(int i=0; i<data; i++){
+            ArrayList<TilesCheck> column = new ArrayList<>();
+            for(int y=0; y<data; y++) {
+                column.add(new TilesCheck(index+data*y, arrayTiles.get(index+data*y).getState()));
             }
-            else if(arrayTiles.get(index+4).getState() == State.BLUE){
-                nbBlue++;
-                listSameColor.add(index+4);
-            }
-            index=+4;
+            listColumn.add(column);
+            index++;
         }
-        if(nbBlue!=nbRed && nbBlue+nbRed==data){
-            for(int id : listSameColor){
-                changeBGColorError(id);
+        index = 4;
+        for(int i=0; i<data; i++){
+            ArrayList<TilesCheck> line = new ArrayList<>();
+            for(int y=0; y<data; y++) {
+                line.add(new TilesCheck(index+y, arrayTiles.get(index + y).getState()));
             }
-            return true;
+            listLine.add(line);
+            index=index+data;
         }
 
+        // Check Equal color in same Line/column
 
+        if(checkEqualColor(listColumn)) return true;
+        if(checkEqualColor(listLine)) return true;
+
+        if(checkTowLineColumn(listColumn)) return true;
+        if(checkTowLineColumn(listLine)) return true;
 
 
         return false;
@@ -224,6 +216,59 @@ public class ActivityGame extends AppCompatActivity {
     private void changeBGColorNoError(int index){
         arrayTiles.get(index).getImageButton().setBackgroundColor(Color.BLACK);
     }
+    private boolean checkEqualColor( ArrayList<ArrayList<TilesCheck>> list){
+        for(int i=0; i<data; i++){
+            int nbRed=0;
+            int nbBlue=0;
+            ArrayList<Integer> listId = new ArrayList<>();
+            for(int j=0; j<data; j++){
+                if(list.get(i).get(j).getState().equals(State.RED)) nbRed++;
+                else if(list.get(i).get(j).getState().equals(State.BLUE)) nbBlue++;
+                listId.add(list.get(i).get(j).getId());
+            }
+            if(nbRed != nbBlue){
+                for (Integer id : listId){
+                    changeBGColorError(id);
+                }
+                binding.textView5.setText("Error : "+ listId);
+                return true;
+            }
+        }
+        return false;
+    }
 
+    private boolean checkTowEqualList(ArrayList<TilesCheck> list1, ArrayList<TilesCheck> list2){
+        ArrayList<Integer> listId = new ArrayList<>();
+        Boolean equalList = true;
+        for(int i=0; i<list1.size(); i++){
+            if(!list1.get(i).getState().equals(list2.get(i).getState())){
+                equalList=false;
+            }
+        }
+
+        if(equalList) {
+            for(TilesCheck tilesId : list1){
+                listId.add(tilesId.getId());
+            }
+            for(TilesCheck tilesId : list2){
+                listId.add(tilesId.getId());
+            }
+            for(Integer id : listId) changeBGColorError(id);
+            binding.textView5.setText("2 Equal list : "+ listId);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean checkTowLineColumn(ArrayList<ArrayList<TilesCheck>> list){
+        for(ArrayList<TilesCheck> list1 : list){
+            for(ArrayList<TilesCheck> list2 : list){
+                if(!(list1.get(0).getId()==list2.get(0).getId())){
+                    return checkTowEqualList(list1, list2);
+                }
+            }
+        }
+        return false;
+    }
 
 }

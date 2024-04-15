@@ -123,6 +123,9 @@ public class ActivityGame extends AppCompatActivity {
                         binding.textView.setText("End Of Game ?");
                         if(!checkRegle()){
                             binding.textView5.setText("END OF THE GAME !");
+                            System.out.println("END OF THE GAME !");
+                            Intent intent = new Intent(ActivityGame.this, ActivityScorePage.class);
+                            startActivity(intent);
                         }
                     }
                 }
@@ -279,7 +282,7 @@ public class ActivityGame extends AppCompatActivity {
     }
 
     private void initGame(){
-        int nbTiles = (data*data)/4; // Fill 25% of the grid
+        int nbTiles = (data*data)/3; // Fill 1/3 of the grid
         Random rand = new Random();
         for(int i=0; i<nbTiles;i++){
             ArrayList<Integer> listOfFreeId = new ArrayList<>();

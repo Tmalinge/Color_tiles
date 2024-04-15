@@ -23,6 +23,7 @@ public class ScorePage extends AppCompatActivity {
         binding = ActivityScorePageBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         fragments = new ArrayList<>();
+        // Need to change
         fragments.add(Fragment_Nom_Score.newInstance(1,"gouverneur",30));
         fragments.add(Fragment_Nom_Score.newInstance(2,"president",12));
         fragments.add(Fragment_Nom_Score.newInstance(3,"ministre",10));

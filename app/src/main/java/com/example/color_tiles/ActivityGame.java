@@ -124,7 +124,7 @@ public class ActivityGame extends AppCompatActivity {
                         if(!checkRegle()){
                             binding.textView5.setText("END OF THE GAME !");
                             System.out.println("END OF THE GAME !");
-                            Intent intent = new Intent(ActivityGame.this, ActivityScorePage.class);
+                            Intent intent = new Intent(ActivityGame.this, ScorePage.class);
                             startActivity(intent);
                         }
                     }

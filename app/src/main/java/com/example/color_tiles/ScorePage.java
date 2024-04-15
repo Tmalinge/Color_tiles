@@ -22,9 +22,13 @@ public class ScorePage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityScorePageBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        //get score
+        Intent intent = getIntent();
+        int score1=intent.getIntExtra("VALUE",1);
+        binding.votreNomTextView.setText(String.valueOf(score1));
         fragments = new ArrayList<>();
         // Need to change
-        fragments.add(Fragment_Nom_Score.newInstance(1,"gouverneur",30));
+        fragments.add(Fragment_Nom_Score.newInstance(1,"gouverneur",score1));
         fragments.add(Fragment_Nom_Score.newInstance(2,"president",12));
         fragments.add(Fragment_Nom_Score.newInstance(3,"ministre",10));
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();

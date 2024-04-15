@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import java.util.ArrayList;
+import java.util.Random;
 
 import com.example.color_tiles.databinding.ActivityGameBinding;
 
@@ -43,6 +45,7 @@ public class ActivityGame extends AppCompatActivity {
                 integerRes.add(R.drawable.black);
             }
         }
+
     }
     class GridAdapter extends BaseAdapter {
 
@@ -68,11 +71,16 @@ public class ActivityGame extends AppCompatActivity {
             imageButton.setLayoutParams(new LinearLayout.LayoutParams(binding.GridView.getWidth()/(data+1), binding.GridView.getHeight()/(data+1)));
             // for better result in various devices calculate width at runtime and measure height accordingly
 
-            imageButton.setBackgroundColor(Color.BLACK);
+            // Set Color
 
+            imageButton.setBackgroundColor(Color.BLACK);
             imageButton.setImageResource(integerRes.get(i));
             imageButton.setId(idGenerator);
             arrayTiles.add(new Tiles(imageButton.getId(), State.BLACK, imageButton));
+
+            if(idGenerator==(data*data+3)){
+                initGame();
+            }
 
             incrementIdGenerator();
 
@@ -81,8 +89,14 @@ public class ActivityGame extends AppCompatActivity {
             imageButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    binding.textView.setText("ImgBtn Id : "+ imageButton.getId());
-                    binding.textView5.setText(".");
+                    for(Tiles tiles : arrayTiles) {
+                        if (tiles.getId() == imageButton.getId()) {
+                            if(tiles.isLocked()){
+                                return;
+                            }
+                        }
+                    }
+
                     for(Tiles tiles : arrayTiles){
                         changeBGColorNoError(tiles.getId());
                     }
@@ -106,18 +120,13 @@ public class ActivityGame extends AppCompatActivity {
                     }
                     //binding.textView.setText("Check End Of Game : "+ checkEndOfGame());
                     if (percentEndOfGame() == 1){
-                        binding.textView.setText("End Of Game");
+                        binding.textView.setText("End Of Game ?");
                         if(!checkRegle()){
-                            binding.textView5.setText("No Error");
-                            System.out.println("END OF THE GAME, NO MORE ERROR");
+                            binding.textView5.setText("END OF THE GAME !");
                         }
                     }
-
-
                 }
-
             });
-
             return imageButton;
         }
     }
@@ -130,6 +139,7 @@ public class ActivityGame extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         binding.textView.setText("data : " + data);
+        // Init Gmae
 
     }
 
@@ -147,7 +157,6 @@ public class ActivityGame extends AppCompatActivity {
         int index = 4;
         int nbRed=0;
         int nbBlue=0;
-        ArrayList<Integer> listSameColor = new ArrayList<>();
         for(int i=0; i<data; i++){
             for(int j=0; j<data; j++){
                 if(((index-4)%data)<(data-2)){
@@ -226,18 +235,17 @@ public class ActivityGame extends AppCompatActivity {
                 else if(list.get(i).get(j).getState().equals(State.BLUE)) nbBlue++;
                 listId.add(list.get(i).get(j).getId());
             }
-            if(nbRed != nbBlue){
+            if(nbRed != nbBlue && (nbBlue+nbRed == data)){
                 for (Integer id : listId){
                     changeBGColorError(id);
                 }
-                binding.textView5.setText("Error : "+ listId);
                 return true;
             }
         }
         return false;
     }
 
-    private boolean checkTowEqualList(ArrayList<TilesCheck> list1, ArrayList<TilesCheck> list2){
+    private boolean checkTowEqualList(@NonNull ArrayList<TilesCheck> list1, ArrayList<TilesCheck> list2){
         ArrayList<Integer> listId = new ArrayList<>();
         Boolean equalList = true;
         for(int i=0; i<list1.size(); i++){
@@ -259,8 +267,7 @@ public class ActivityGame extends AppCompatActivity {
         }
         return false;
     }
-
-    public boolean checkTowLineColumn(ArrayList<ArrayList<TilesCheck>> list){
+    private boolean checkTowLineColumn(ArrayList<ArrayList<TilesCheck>> list){
         for(ArrayList<TilesCheck> list1 : list){
             for(ArrayList<TilesCheck> list2 : list){
                 if(!(list1.get(0).getId()==list2.get(0).getId())){
@@ -269,6 +276,41 @@ public class ActivityGame extends AppCompatActivity {
             }
         }
         return false;
+    }
+
+    private void initGame(){
+        int nbTiles = (data*data)/4; // Fill 25% of the grid
+        Random rand = new Random();
+        for(int i=0; i<nbTiles;i++){
+            ArrayList<Integer> listOfFreeId = new ArrayList<>();
+            for(Tiles tiles : arrayTiles){
+                if(tiles.getState().equals(State.BLACK) && tiles.getId() >=4){
+                    listOfFreeId.add(tiles.getId());
+                }
+            }
+            int randId = listOfFreeId.get(rand.nextInt(listOfFreeId.size())); // Random number
+            int randColor = rand.nextInt(2); // 0 Or 1
+            if(randColor==1) {
+                arrayTiles.get(randId).getImageButton().setImageResource(R.drawable.red_lock);
+                arrayTiles.get(randId).setState(State.RED);
+                arrayTiles.get(randId).setLocked(true);
+            }
+            else {
+                arrayTiles.get(randId).getImageButton().setImageResource(R.drawable.blue_lock);
+                arrayTiles.get(randId).setState(State.BLUE);
+                arrayTiles.get(randId).setLocked(true);
+            }
+
+            if(checkRegle()){
+                i--;
+                arrayTiles.get(randId).getImageButton().setImageResource(R.drawable.black);
+                arrayTiles.get(randId).setState(State.BLACK);
+                arrayTiles.get(randId).setLocked(false);
+            }
+        }
+
+
+
     }
 
 }

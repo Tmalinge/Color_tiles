@@ -36,7 +36,7 @@
             android:id="@+id/votre_nom_textView"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:text="Hank Hullé - XXXX"
+            android:text="*score*"
             android:textAlignment="center"
             android:textAllCaps="false"
             android:textColor="#FFFFFF"

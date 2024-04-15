@@ -20,7 +20,8 @@ public class ScorePage extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_score_page);
+        binding = ActivityScorePageBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
         fragments = new ArrayList<>();
         fragments.add(Fragment_Nom_Score.newInstance(1,"gouverneur",30));
         fragments.add(Fragment_Nom_Score.newInstance(2,"president",12));
@@ -35,14 +36,13 @@ public class ScorePage extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        try {
-
-            binding.button.setOnClickListener(v -> {
-                Intent intent = new Intent(ScorePage.this, MainActivity.class);
+        binding.button.setText("Accueil Button");
+        binding.button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ScorePage.this,MainActivity.class);
                 startActivity(intent);
-            });}
-        catch(Exception e){
-            Toast.makeText(this,e.getMessage(),Toast.LENGTH_SHORT).show();
             }
+        });
     }
 }

@@ -1,6 +1,9 @@
 package com.example.color_tiles;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
 
@@ -26,6 +29,9 @@ public class ActivityGame extends AppCompatActivity {
     ArrayList<Tiles> arrayTiles = new ArrayList<>();
     int idGenerator;
     int data = 1;
+    int time=0;
+    private Intent intentService;
+    static public final String BROADCAST = "0";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +43,7 @@ public class ActivityGame extends AppCompatActivity {
         idGenerator = 0;
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
+        intentService = new Intent(this, MyTimeService.class);
 
         data = (int) bundle.getSerializable("data");
 
@@ -45,8 +52,16 @@ public class ActivityGame extends AppCompatActivity {
                 integerRes.add(R.drawable.black);
             }
         }
-
     }
+
+    @Override
+    protected void onStart(){
+        super.onStart();
+        startService(intentService);
+    }
+
+
+
     class GridAdapter extends BaseAdapter {
 
         @Override
@@ -118,17 +133,17 @@ public class ActivityGame extends AppCompatActivity {
                             }
                         }
                     }
-                    //binding.textView.setText("Check End Of Game : "+ checkEndOfGame());
+
                     if (percentEndOfGame() == 1){
-                        binding.textView.setText("End Of Game ?");
                         if(!checkRegle()){
-                            binding.textView5.setText("END OF THE GAME !");
-                            System.out.println("END OF THE GAME !");
-                            //
-                            int score = (int) (Math.random()+1)*1000;
+                            //int score = (int) (Math.random()+1)*1000;
+                            double multiplier = data/4;
+                            double score = 1000-(time*multiplier);
+                            if(score<0){
+                                score=0;
+                            }
                             Intent intent = new Intent(ActivityGame.this, ScorePage.class);
-                            //
-                            intent.putExtra("VALUE",score);
+                            intent.putExtra("score",score);
 
                             startActivity(intent);
                         }
@@ -146,9 +161,17 @@ public class ActivityGame extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        binding.textView.setText("data : " + data);
-        // Init Gmae
-
+        registerReceiver(reciver, new IntentFilter(BROADCAST));
+    }
+    @Override
+    protected void onPause(){
+        super.onPause();
+        unregisterReceiver(reciver);
+    }
+    @Override
+    protected void onStop(){
+        super.onStop();
+        stopService(intentService);
     }
 
     public int percentEndOfGame(){
@@ -170,7 +193,7 @@ public class ActivityGame extends AppCompatActivity {
                 if(((index-4)%data)<(data-2)){
                     // Check Horisontal (3 tiles same color)
                     if((arrayTiles.get(index).getState() == State.RED && arrayTiles.get(index+1).getState() == State.RED && arrayTiles.get(index+2).getState() == State.RED) || (arrayTiles.get(index).getState() == State.BLUE && arrayTiles.get(index+1).getState() == State.BLUE && arrayTiles.get(index+2).getState() == State.BLUE) ){
-                        binding.textView5.setText("Error 3 Tiles Folow "+ index + " | "+ (index+1) + " | "+ (index+2));
+                        //binding.textView5.setText("Error 3 Tiles Folow "+ index + " | "+ (index+1) + " | "+ (index+2));
                         changeBGColorError(index);
                         changeBGColorError(index+1);
                         changeBGColorError(index+2);
@@ -181,7 +204,7 @@ public class ActivityGame extends AppCompatActivity {
                 // Check Vertical (3 tiles Same color)
                 if((index-4) < data*(data-2)){
                     if((arrayTiles.get(index).getState() == State.RED && arrayTiles.get(index+data).getState() == State.RED && arrayTiles.get(index+data*2).getState() == State.RED) || (arrayTiles.get(index).getState() == State.BLUE && arrayTiles.get(index+data).getState() == State.BLUE && arrayTiles.get(index+data*2).getState() == State.BLUE) ){
-                        binding.textView5.setText("Error 3 Tiles Folow "+ index + " | "+ (index+data) + " | "+ (index+data*2));
+                        //binding.textView5.setText("Error 3 Tiles Folow "+ index + " | "+ (index+data) + " | "+ (index+data*2));
                         changeBGColorError(index);
                         changeBGColorError(index+data);
                         changeBGColorError(index+data*2);
@@ -270,7 +293,6 @@ public class ActivityGame extends AppCompatActivity {
                 listId.add(tilesId.getId());
             }
             for(Integer id : listId) changeBGColorError(id);
-            binding.textView5.setText("2 Equal list : "+ listId);
             return true;
         }
         return false;
@@ -321,4 +343,18 @@ public class ActivityGame extends AppCompatActivity {
 
     }
 
+    private final BroadcastReceiver reciver = new BroadcastReceiver(){
+        @Override
+        public void onReceive(Context context, Intent intent){
+            Bundle bundle = intent.getExtras();
+            if(bundle != null){
+                //Set Text
+                time = time + bundle.getInt("time");
+                System.out.println("Set Time");
+                binding.textTime.setText(time/60 + " : "+ time%60);
+                //Start again
+                startService(intentService);
+            }
+        }
+    };
 }

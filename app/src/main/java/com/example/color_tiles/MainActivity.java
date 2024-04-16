@@ -14,6 +14,7 @@ import com.example.color_tiles.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
 
+
     private ActivityMainBinding binding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

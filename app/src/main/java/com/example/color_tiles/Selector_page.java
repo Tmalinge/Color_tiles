@@ -140,6 +140,12 @@ public class Selector_page extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        binding.imageButton7.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(Selector_page.this, ScorePage.class);
+                startActivity(intent);
+            }
+        });
         binding.imageButton9.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

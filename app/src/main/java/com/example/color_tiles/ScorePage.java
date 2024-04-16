@@ -65,7 +65,6 @@ public class ScorePage extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        binding.button.setText("Accueil Button");
         binding.button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

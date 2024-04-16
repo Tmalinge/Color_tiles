@@ -11,4 +11,5 @@
     <string name="back">Retour arrière</string>
     <string name="presentation">Le jeu Color Tiles a été dévelopé par:</string>
     <string name="name">Theo, Adrien et Florian</string>
+    <string name="best">Meilleur score</string>
 </resources>

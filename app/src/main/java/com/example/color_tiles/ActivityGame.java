@@ -1,5 +1,6 @@
 package com.example.color_tiles;
 
+import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -107,9 +108,7 @@ public class ActivityGame extends AppCompatActivity {
                 public void onClick(View view) {
                     for(Tiles tiles : arrayTiles) {
                         if (tiles.getId() == imageButton.getId()) {
-                            if(tiles.isLocked()){
-                                return;
-                            }
+                            if(tiles.isLocked()) return;
                         }
                     }
 
@@ -346,15 +345,13 @@ public class ActivityGame extends AppCompatActivity {
                     if(tiles.getState().equals(State.BLACK)){
                         tiles.setState(randomColor());
                         if(checkRegle()){ // Placement pas bon
-                            System.out.println("Placement pas bon");
                             tiles.setState(State.BLACK);
                             i--;
                         }
                         else{ // Placement bon
-                            System.out.println("Placement bon");
                             tiles.setLocked(true);
-                            if(tiles.getState().equals(State.RED)) tiles.getImageButton().setImageResource(R.drawable.red);
-                            else tiles.getImageButton().setImageResource(R.drawable.blue);
+                            if(tiles.getState().equals(State.RED)) tiles.getImageButton().setImageResource(R.drawable.red_lock);
+                            else tiles.getImageButton().setImageResource(R.drawable.blue_lock);
                         }
                     }
                 }
@@ -363,6 +360,7 @@ public class ActivityGame extends AppCompatActivity {
     }
 
     private final BroadcastReceiver reciver = new BroadcastReceiver(){
+        @SuppressLint("SetTextI18n")
         @Override
         public void onReceive(Context context, Intent intent){
             Bundle bundle = intent.getExtras();

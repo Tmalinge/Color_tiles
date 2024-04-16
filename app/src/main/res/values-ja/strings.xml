@@ -9,8 +9,9 @@
     <string name="dimension_8x8">サイズ 8x8</string>
     <string name="score">スコアの表</string>
     <string name="back">戻る</string>
-    <string name="presentation">
-カラータイルゲームは以下によって開発されました。</string>
-    <string name="name">
-テオ、エイドリアン、フロリアン</string>
+    <string name="presentation">カラータイルゲームは以下によって開発されました。</string>
+    <string name="name">テオ、エイドリアン、フロリアン</string>
+    <string name="best">最高のスコア</string>
+
+
 </resources>

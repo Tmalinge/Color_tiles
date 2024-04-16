@@ -27,7 +27,6 @@ public class MyTimeService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId){
         Handler handler = new Handler();
         handler.postDelayed(() -> {
-            System.out.println("Handler");
             Intent intent1 = new Intent(ActivityGame.BROADCAST);
             intent1.putExtra("time", time);
             sendBroadcast(intent1);

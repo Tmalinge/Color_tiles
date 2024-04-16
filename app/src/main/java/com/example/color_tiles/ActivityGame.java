@@ -60,8 +60,6 @@ public class ActivityGame extends AppCompatActivity {
         startService(intentService);
     }
 
-
-
     class GridAdapter extends BaseAdapter {
 
         @Override
@@ -95,6 +93,9 @@ public class ActivityGame extends AppCompatActivity {
 
             if(idGenerator==(data*data+3)){
                 initGame();
+                for(Tiles tiles : arrayTiles){
+                    changeBGColorNoError(tiles.getId());
+                }
             }
 
             incrementIdGenerator();
@@ -137,8 +138,8 @@ public class ActivityGame extends AppCompatActivity {
                     if (percentEndOfGame() == 1){
                         if(!checkRegle()){
                             //int score = (int) (Math.random()+1)*1000;
-                            double multiplier = data/4;
-                            double score = 1000-(time*multiplier);
+                            int multiplier = data/2;
+                            int score = 1000-(time/multiplier);
                             if(score<0){
                                 score=0;
                             }
@@ -162,6 +163,13 @@ public class ActivityGame extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         registerReceiver(reciver, new IntentFilter(BROADCAST));
+        binding.buttonBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ActivityGame.this,Selector_page.class);
+                startActivity(intent);
+            }
+        });
     }
     @Override
     protected void onPause(){
@@ -197,6 +205,7 @@ public class ActivityGame extends AppCompatActivity {
                         changeBGColorError(index);
                         changeBGColorError(index+1);
                         changeBGColorError(index+2);
+                        System.out.println("3 Tiles Align");
                         return true;
 
                     }
@@ -208,6 +217,7 @@ public class ActivityGame extends AppCompatActivity {
                         changeBGColorError(index);
                         changeBGColorError(index+data);
                         changeBGColorError(index+data*2);
+                        System.out.println("3 Tiles Align");
                         return true;
 
                     }
@@ -240,11 +250,23 @@ public class ActivityGame extends AppCompatActivity {
 
         // Check Equal color in same Line/column
 
-        if(checkEqualColor(listColumn)) return true;
-        if(checkEqualColor(listLine)) return true;
+        if(checkEqualColor(listColumn)) {
+            System.out.println("Equal column");
+            return true;
+        }
+        if(checkEqualColor(listLine)) {
+            System.out.println("Equal column");
+            return true;
+        }
 
-        if(checkTowLineColumn(listColumn)) return true;
-        if(checkTowLineColumn(listLine)) return true;
+        if(checkTowLineColumn(listColumn)) {
+            System.out.println("Equal line");
+            return true;
+        }
+        if(checkTowLineColumn(listLine)) {
+            System.out.println("Equal line");
+            return true;
+        }
 
 
         return false;
@@ -257,6 +279,7 @@ public class ActivityGame extends AppCompatActivity {
         arrayTiles.get(index).getImageButton().setBackgroundColor(Color.BLACK);
     }
     private boolean checkEqualColor( ArrayList<ArrayList<TilesCheck>> list){
+        int maxColor = data/2;
         for(int i=0; i<data; i++){
             int nbRed=0;
             int nbBlue=0;
@@ -266,7 +289,7 @@ public class ActivityGame extends AppCompatActivity {
                 else if(list.get(i).get(j).getState().equals(State.BLUE)) nbBlue++;
                 listId.add(list.get(i).get(j).getId());
             }
-            if(nbRed != nbBlue && (nbBlue+nbRed == data)){
+            if((nbRed > maxColor) || (nbBlue > maxColor)){
                 for (Integer id : listId){
                     changeBGColorError(id);
                 }
@@ -309,38 +332,34 @@ public class ActivityGame extends AppCompatActivity {
     }
 
     private void initGame(){
-        int nbTiles = (data*data)/3; // Fill 1/3 of the grid
+        // Fill 1/3
+        int fillTiles = (data*data)/3;
         Random rand = new Random();
-        for(int i=0; i<nbTiles;i++){
-            ArrayList<Integer> listOfFreeId = new ArrayList<>();
+        for(int i=0; i<fillTiles; i++){
+            System.out.println("i : "+ i);
+            int max = data*data;
+            int min =4;
+            int randomId = rand.nextInt(max + 1 - min) + min;
+            System.out.println("Random : "+ randomId);
             for(Tiles tiles : arrayTiles){
-                if(tiles.getState().equals(State.BLACK) && tiles.getId() >=4){
-                    listOfFreeId.add(tiles.getId());
+                if(tiles.getId() == randomId){
+                    if(tiles.getState().equals(State.BLACK)){
+                        tiles.setState(randomColor());
+                        if(checkRegle()){ // Placement pas bon
+                            System.out.println("Placement pas bon");
+                            tiles.setState(State.BLACK);
+                            i--;
+                        }
+                        else{ // Placement bon
+                            System.out.println("Placement bon");
+                            tiles.setLocked(true);
+                            if(tiles.getState().equals(State.RED)) tiles.getImageButton().setImageResource(R.drawable.red);
+                            else tiles.getImageButton().setImageResource(R.drawable.blue);
+                        }
+                    }
                 }
             }
-            int randId = listOfFreeId.get(rand.nextInt(listOfFreeId.size())); // Random number
-            int randColor = rand.nextInt(2); // 0 Or 1
-            if(randColor==1) {
-                arrayTiles.get(randId).getImageButton().setImageResource(R.drawable.red_lock);
-                arrayTiles.get(randId).setState(State.RED);
-                arrayTiles.get(randId).setLocked(true);
-            }
-            else {
-                arrayTiles.get(randId).getImageButton().setImageResource(R.drawable.blue_lock);
-                arrayTiles.get(randId).setState(State.BLUE);
-                arrayTiles.get(randId).setLocked(true);
-            }
-
-            if(checkRegle()){
-                i--;
-                arrayTiles.get(randId).getImageButton().setImageResource(R.drawable.black);
-                arrayTiles.get(randId).setState(State.BLACK);
-                arrayTiles.get(randId).setLocked(false);
-            }
         }
-
-
-
     }
 
     private final BroadcastReceiver reciver = new BroadcastReceiver(){
@@ -350,11 +369,22 @@ public class ActivityGame extends AppCompatActivity {
             if(bundle != null){
                 //Set Text
                 time = time + bundle.getInt("time");
-                System.out.println("Set Time");
                 binding.textTime.setText(time/60 + " : "+ time%60);
                 //Start again
                 startService(intentService);
             }
         }
     };
+
+    private State randomColor(){
+        double random = Math.random()*2;
+        if(random>=1){
+            System.out.println("Set color RED");
+            return State.RED;
+        }
+        else {
+            System.out.println("Set color BLUE");
+            return State.BLUE;
+        }
+    }
 }

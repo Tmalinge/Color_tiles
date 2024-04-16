@@ -28,7 +28,7 @@ public class ScorePage extends AppCompatActivity {
         setContentView(binding.getRoot());
         //get score
         Intent intent = getIntent();
-        int scorePlayed= (int) intent.getDoubleExtra("score",0);
+        int scorePlayed= intent.getIntExtra("score",0);
         if(scorePlayed==0){
             binding.votreNomTextView.setText("");
         }

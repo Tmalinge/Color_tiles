@@ -13,5 +13,10 @@
     <string name="name">テオ、エイドリアン、フロリアン</string>
     <string name="best">最高のスコア</string>
 
+    <string name="ruleBtn"> Rule (jp) </string>
+    <string name="rule1"> Rule 1 (jp) </string>
+    <string name="rule2"> Rule 2 (jp) </string>
+    <string name="rule3"> Rule 3 (jp) </string>
+    <string name="ruleTitle"> Rule Title (jp) </string>
 
 </resources>

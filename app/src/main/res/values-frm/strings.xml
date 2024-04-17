@@ -12,4 +12,10 @@
     <string name="presentation">Le jeu Color Tiles a été dévelopé par:</string>
     <string name="name">Theo, Adrien et Florian</string>
     <string name="best">Meilleur score</string>
+
+    <string name="ruleBtn"> Rule (fr) </string>
+    <string name="rule1"> Rule 1 (fr) </string>
+    <string name="rule2"> Rule 2 (fr) </string>
+    <string name="rule3"> Rule 3 (fr) </string>
+    <string name="ruleTitle"> Rule Title (fr) </string>
 </resources>

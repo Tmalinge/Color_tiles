@@ -15,20 +15,23 @@
         <service
             android:name=".MyTimeService"
             android:enabled="true"
-            android:exported="true"></service>
-
+            android:exported="true" />
+        <activity
+            android:name=".RulesActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".ScorePage"
             android:exported="false"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ActivityGame"
             android:exported="false"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Selector_page"
             android:exported="false"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".MainActivity"
             android:exported="true"

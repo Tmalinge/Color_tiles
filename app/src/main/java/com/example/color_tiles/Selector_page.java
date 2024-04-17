@@ -153,5 +153,13 @@ public class Selector_page extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        binding.buttonToRules.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Selector_page.this,RulesActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }

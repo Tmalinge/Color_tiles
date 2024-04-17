@@ -2,7 +2,7 @@
 <resources>
     <string name="hello_world">おはよう ！</string>
     <string name="app_name">カラータイル</string>
-    <string name="choisir_une_taille_pour_jouer">プレイするサイズを選択してください^^</string>
+    <string name="choisir_une_taille_pour_jouer">プレイするサイズを選択してください ^^</string>
     <string name="ecran_de_selection">選択画面</string>
     <string name="dimension_6x6">サイズ 6x6</string>
     <string name="dimension_4x4">サイズ 4x4</string>
@@ -13,10 +13,12 @@
     <string name="name">テオ、エイドリアン、フロリアン</string>
     <string name="best">最高のスコア</string>
 
-    <string name="ruleBtn"> Rule (jp) </string>
-    <string name="rule1"> Rule 1 (jp) </string>
-    <string name="rule2"> Rule 2 (jp) </string>
-    <string name="rule3"> Rule 3 (jp) </string>
-    <string name="ruleTitle"> Rule Title (jp) </string>
+    <string name="ruleTitle"> ゲームのルール </string>
+    <string name="rule1Title"> 3つ並べる </string>
+    <string name="rule1"> 同じ色のタイルを3つ並べることはできない。 </string>
+    <string name="rule2Title"> 二列/一列 </string>
+    <string name="rule2"> 同じ列や行を2つ作ることはできない。 </string>
+    <string name="rule3Title"> 色のバランス </string>
+    <string name="rule3"> 各行、各列の色の数は同じでなければならない。 </string>
 
 </resources>

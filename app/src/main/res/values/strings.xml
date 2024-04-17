@@ -12,9 +12,11 @@
     <string name="name">Theo, Adrien and Florian</string>
     <string name="best">Best score</string>
 
-    <string name="ruleBtn"> Rule (en) </string>
-    <string name="rule1"> Rule 1 (en) </string>
-    <string name="rule2"> Rule 2 (en) </string>
-    <string name="rule3"> Rule 3 (en) </string>
-    <string name="ruleTitle"> Rule Title (en) </string>
+    <string name="ruleTitle"> Game rules </string>
+    <string name="rule1Title"> Three in a row </string>
+    <string name="rule1"> You cannot have three tiles of the same color in a row </string>
+    <string name="rule2Title"> Double column/row </string>
+    <string name="rule2"> Cannot have the same two columns or rows </string>
+    <string name="rule3Title"> Color balance </string>
+    <string name="rule3"> There must be an equal number of colors in each row and column </string>
 </resources>

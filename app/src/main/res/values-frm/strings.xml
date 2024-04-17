@@ -13,9 +13,12 @@
     <string name="name">Theo, Adrien et Florian</string>
     <string name="best">Meilleur score</string>
 
-    <string name="ruleBtn"> Rule (fr) </string>
-    <string name="rule1"> Rule 1 (fr) </string>
-    <string name="rule2"> Rule 2 (fr) </string>
-    <string name="rule3"> Rule 3 (fr) </string>
-    <string name="ruleTitle"> Rule Title (fr) </string>
+    <string name="ruleTitle"> Règle du jeu </string>
+    <string name="rule1Title"> Trois à la suite </string>
+    <string name="rule1"> Il ne peut pas avoir trois tuiles de la même couleur à la suite </string>
+    <string name="rule2Title"> Double colonne/ligne </string>
+    <string name="rule2"> Il ne peut pas avoir deux mêmes colonnes ou lignes </string>
+    <string name="rule3Title"> Equilibre de couleur </string>
+    <string name="rule3"> Il doit avoir un nombre égal de couleur dans chaque ligne et colonne </string>
+
 </resources>
